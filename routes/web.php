@@ -23,6 +23,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\CategoryController as FECategoryController;
 use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\AccountController;
 
 Route::prefix('/')->group(function () {
@@ -55,7 +56,7 @@ Route::prefix('/')->group(function () {
     Route::get('/api/get-districts/{province_id}', [CheckoutController::class, 'getDistrictsByProvince']);
     Route::get('/api/get-wards/{district_id}', [CheckoutController::class, 'getWardsByDistrict']);
 
-    Route::get('/account', [AccountController::class, 'index'])->name('account');
+    Route::get('/account', [AccountController::class, 'index'])->name('account')->middleware('auth');
     Route::post('/account/update', [AccountController::class, 'update'])->name('account.update');
 
 });
@@ -95,5 +96,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.','middleware' => ['admin.auth
     Route::post('/orders/{order}/ship', [OrderController::class, 'ship'])->name('orders.ship');
     Route::post('/orders/{order}/invoice', [OrderController::class, 'invoice'])->name('orders.invoice');
 
+    Route::get('/customers', [CustomerController::class, 'index'])->name('admin.customers.index');
+    Route::get('/customers/{id}', [CustomerController::class, 'show'])->name('admin.customers.show');
+    Route::get('/customers/{id}/edit', [CustomerController::class, 'edit'])->name('admin.customers.edit');
+    Route::put('/customers/{id}', [CustomerController::class, 'update'])->name('admin.customers.update');
+    Route::delete('/customers/{id}', [CustomerController::class, 'destroy'])->name('admin.customers.destroy');
 });
 

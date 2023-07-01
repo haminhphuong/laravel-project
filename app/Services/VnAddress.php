@@ -1,39 +1,27 @@
 <?php
 
 namespace App\Services;
-
-use GuzzleHttp\Client;
+use App\Models\District;
+use App\Models\Region;
+use App\Models\Ward;
 
 class VnAddress
 {
-    protected $client;
-
-    public function __construct()
-    {
-        $this->client = new Client([
-            'base_uri' => 'https://thongtindoanhnghiep.co/api/',
-            'timeout'  => 5.0,
-            'verify' => false
-        ]);
-    }
-
     public function getProvinces()
     {
-        $response = $this->client->get('city');
-        $data = json_decode($response->getBody()->getContents(), true);
-
-        return $data['LtsItem'];
+        return Region::all();
     }
 
     public function getDistricts($province_id)
     {
-        $response = $this->client->get("city/{$province_id}/district");
-        return json_decode($response->getBody()->getContents(), true);
+        $districts = District::where('ma_tp', $province_id)->get();
+        return $districts->pluck('ten', 'ma')->all();
+
     }
 
     public function getWards($district_id)
     {
-        $response = $this->client->get("district/{$district_id}/ward");
-        return json_decode($response->getBody()->getContents(), true);
+        $ward = Ward::where('ma_qh', $district_id)->get();
+        return $ward->pluck('ten', 'ma')->all();
     }
 }

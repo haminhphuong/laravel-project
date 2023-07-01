@@ -65,24 +65,25 @@
                                 <li class="nav-item"><a class="nav-link" href="{{ url('/confirmation') }}">Confirmation</a></li>
                             </ul>
                         </li>
-                        <li class="nav-item submenu dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                               aria-expanded="false">Blog</a>
-                            <ul class="dropdown-menu">
-                                <li class="nav-item"><a class="nav-link" href="{{ url('/blog') }}">Blog</a></li>
-                                <li class="nav-item"><a class="nav-link" href="{{ url('/single-blog') }}">Blog Details</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-item submenu dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                               aria-expanded="false">Pages</a>
-                            <ul class="dropdown-menu">
-                                <li class="nav-item"><a class="nav-link" href="{{ url('/login') }}">Login</a></li>
-                                <li class="nav-item"><a class="nav-link" href="{{ url('/tracking') }}">Tracking</a></li>
-                                <li class="nav-item"><a class="nav-link" href="{{ url('/elements') }}">Elements</a></li>
-                            </ul>
-                        </li>
+{{--                        <li class="nav-item submenu dropdown">--}}
+{{--                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"--}}
+{{--                               aria-expanded="false">Blog</a>--}}
+{{--                            <ul class="dropdown-menu">--}}
+{{--                                <li class="nav-item"><a class="nav-link" href="{{ url('/blog') }}">Blog</a></li>--}}
+{{--                                <li class="nav-item"><a class="nav-link" href="{{ url('/single-blog') }}">Blog Details</a></li>--}}
+{{--                            </ul>--}}
+{{--                        </li>--}}
+{{--                        <li class="nav-item submenu dropdown">--}}
+{{--                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"--}}
+{{--                               aria-expanded="false">Pages</a>--}}
+{{--                            <ul class="dropdown-menu">--}}
+{{--                                <li class="nav-item"><a class="nav-link" href="{{ url('/login') }}">Login</a></li>--}}
+{{--                                <li class="nav-item"><a class="nav-link" href="{{ url('/tracking') }}">Tracking</a></li>--}}
+{{--                                <li class="nav-item"><a class="nav-link" href="{{ url('/elements') }}">Elements</a></li>--}}
+{{--                            </ul>--}}
+{{--                        </li>--}}
                         <li class="nav-item"><a class="nav-link" href="{{ url('contact.html') }}">Contact</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ route('account') }}">{{__('Account')}}</a></li>
                         @if(Auth::check())
                             <li class="nav-item"><a class="nav-link" href="{{ route('logout') }}">{{__('Logout')}}</a></li>
                         @else

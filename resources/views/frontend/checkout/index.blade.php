@@ -78,7 +78,7 @@
                             <div class="col-md-12 form-group p_star">
                                 <select class="country_select select-scroll" id="province">
                                     @foreach($provinces as $province)
-                                        <option value="{{ $province['ID']}}">{{ $province['Title'] }}</option>
+                                        <option value="{{ $province['ma']}}">{{ $province['ten'] }}</option>
                                     @endforeach
                                 </select>
                                 <input type="hidden" name="city_address" id="city_address" class="@error('city_address') is-invalid @enderror">
@@ -205,12 +205,14 @@
                     var current = $("#district").siblings(".nice-select.country_select").find(".current");
                     list.empty();
                     districtDropdown.empty(); // xóa tất cả các option cũ
+                    let i = 0;
                     $.each(districts, function(key, value){
-                        var selected = key == 0 ? "focus selected" : "";
-                        if(key == 0) current.html(value.Title) ;
-                        districtDropdown.append('<option value="' + value.ID + '">' + value.Title + '</option>');
-                        var html = '<li data-value="' + value.ID + '" class="option ' + selected + '">' + value.Title + '</li>';
+                        var selected = i == 0 ? "focus selected" : "";
+                        if(i == 0) current.html(value) ;
+                        districtDropdown.append('<option value="' + key + '">' + value + '</option>');
+                        var html = '<li data-value="' + key + '" class="option ' + selected + '">' + value + '</li>';
                         list.append(html);
+                        i++;
                     });
                     $('#district').trigger('change');
                 }
@@ -222,7 +224,7 @@
             var districtId = $(this).val();
             var selectedOption = $(this).find('option:selected');
             $("#district_address").val(selectedOption.text());
-            // Kết nối tới API để lấy danh sách xã
+
             $.ajax({
                 type: 'GET',
                 url: '/api/get-wards/' + districtId,
@@ -237,13 +239,14 @@
                     // Xóa danh sách xã cũ
                     $('#ward').empty();
                     list.empty();
-                    // Hiển thị danh sách xã mới
+                    let i=0;
                     $.each(wards, function(key, value) {
-                        var selected = key == 0 ? "focus selected" : "";
-                        if(key == 0) current.html(value.Title) ;
-                        $('#ward').append('<option value="' + value.ID + '">' + value.Title + '</option>');
-                        var html = '<li data-value="' + value.ID + '" class="option ' + selected + '">' + value.Title + '</li>';
+                        var selected = i == 0 ? "focus selected" : "";
+                        if(i == 0) current.html(value) ;
+                        $('#ward').append('<option value="' + key + '">' + value + '</option>');
+                        var html = '<li data-value="' + key + '" class="option ' + selected + '">' + value + '</li>';
                         list.append(html);
+                        i++;
                     });
                     $('#ward').trigger('change');
                 },

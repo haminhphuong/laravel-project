@@ -24,7 +24,6 @@ class CartController extends Controller
 
     public function addToCart(Request $request, $product_id)
     {
-        die('sssssss');
         $quantity = $request->input('qty');
         $cart = new Cart();
         $cart->addToCart($product_id, $quantity);
