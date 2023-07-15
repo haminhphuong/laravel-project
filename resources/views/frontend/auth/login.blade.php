@@ -31,6 +31,11 @@
 <!--================Login Box Area =================-->
 <section class="login_box_area section_gap">
     <div class="container">
+        @if (session()->has('errors'))
+            <div class="alert alert-danger">
+                {{ session()->get('errors') }}
+            </div>
+        @endif
         <div class="row">
             <div class="col-lg-6">
                 <div class="login_box_img">

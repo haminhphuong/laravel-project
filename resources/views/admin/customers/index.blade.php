@@ -12,14 +12,14 @@
                     <h4 class="card-title">All Customers</h4>
                 </div>
                 <div class="card-body">
-                    <table class="table table-striped" id="orders-table">
+                    <table class="table table-striped" id="customers-table">
                         <thead>
                         <tr>
-                            <th>Order ID</th>
+                            <th>ID</th>
+                            <th>Avatar</th>
                             <th>Email</th>
-                            <th>Payment</th>
-                            <th>Total Price</th>
-                            <th>Status</th>
+                            <th>Name</th>
+                            <th>Phone</th>
                             <th>Action</th>
                         </tr>
                         </thead>
@@ -33,17 +33,17 @@
 
 <script>
     $(function () {
-        $('#orders-table').DataTable({
+        $('#customers-table').DataTable({
             processing: true,
             serverSide: true,
-            ajax: '/admin/orders',
+            ajax: '/admin/customers',
             columns: [
                 {data: 'id', name: 'id'},
+                {data: 'avatar', name: 'avatar'},
                 {data: 'email', name: 'email'},
-                {data: 'payment_method', name: 'payment_method'},
-                {data: 'total_price', name: 'total_price'},
-                {data: 'status', name: 'status'},
-                {data: 'action', name: 'action'},
+                {data: 'name', name: 'name'},
+                {data: 'phone', name: 'phone'},
+                {data: 'action', name: 'action'}
             ]
         });
     });

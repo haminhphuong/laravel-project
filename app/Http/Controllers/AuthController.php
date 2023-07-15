@@ -19,10 +19,10 @@ class AuthController extends Controller
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
-            return redirect()->intended('/');
+            return redirect()->intended('/account');
         }
 
-        return redirect()->back()->withErrors(['email' => 'Invalid email or password']);
+        return redirect()->back()->with('errors','Invalid email or password');
     }
 
     // Phương thức xử lý đăng xuất

@@ -1,6 +1,6 @@
 
 @extends('frontend/index')
-@section('title', $category->name)
+@section('title', isset($keyword)  ? $keyword : $category->name)
 @section('idBody','category')
 @section('css')
     <link rel="stylesheet" href="{{ asset('css/linearicons.css') }}">
@@ -30,7 +30,7 @@
                     <nav class="d-flex align-items-center">
                         <a href="/">Home<span class="lnr lnr-arrow-right"></span></a>
                         <a href="#">Shop<span class="lnr lnr-arrow-right"></span></a>
-                        <a href="{{route('category.products', ['slug' => $category->slug])}}">{{$category->name}}</a>
+                        <a href="{{ isset($keyword) ? 'javascript:void(0)' : route('category.products', ['slug' => $category->slug])}}">{{isset($keyword) ? $keyword : $category->name}}</a>
                     </nav>
                 </div>
             </div>
@@ -44,72 +44,55 @@
             <div class="col-xl-3 col-lg-4 col-md-5">
                 <div class="sidebar-filter mt-50">
                     <div class="top-filter-head">Product Filters</div>
-                    @if($mappedBrands)
+                    @if(count($mappedBrands) > 0)
                         <div class="common-filter">
                             <div class="head">{{__('Brands')}}</div>
                             <form action="#">
                                 <ul>
                                     @foreach($mappedBrands as $key => $brand)
-                                        <li class="filter-list"><input class="pixel-radio" type="radio" id="{{$brand}}" value="{{$key}}" name="brand"><label for="{{$brand}}">{{$brand}}<span>(29)</span></label></li>
+                                        <li class="filter-list"><input class="pixel-radio" type="radio" id="{{$brand}}" value="{{$key}}" name="brand"><label for="{{$brand}}">{{$brand}}</label></li>
                                     @endforeach
                                 </ul>
                             </form>
                         </div>
                     @endif
-                    @if($mappedColors)
+                    @if(count($mappedColors) > 0)
                     <div class="common-filter">
                         <div class="head">{{__('Color')}}</div>
                         <form action="#">
                             <ul>
                                 @foreach($mappedColors as $key => $color)
-                                    <li class="filter-list"><input class="pixel-radio" type="radio" id="{{$color}}" value="{{$key}}" name="color"><label for="{{$color}}">{{$color}}<span>(29)</span></label></li>
+                                    <li class="filter-list"><input class="pixel-radio" type="radio" id="{{$color}}" value="{{$key}}" name="color"><label for="{{$color}}">{{$color}}</label></li>
                                 @endforeach
                             </ul>
                         </form>
                     </div>
                     @endif
-                    @if($deals)
+                    @if(count($deals) > 0)
                         <div class="common-filter">
                             <div class="head">{{__('Deals of the Week')}}</div>
                             <form action="#">
                                 <ul>
                                     @foreach($deals as $key => $deal)
-                                        @if($deal)
-                                            <li class="filter-list"><input class="pixel-radio" type="radio" id="deal_{{$deal}}" value="{{$deal}}" name="deals_of_the_week"><label for="deal_{{$deal}}">{{$deal ? 'Yes' : 'No'}}<span>(29)</span></label></li>
-                                        @endif
+                                        <li class="filter-list"><input class="pixel-radio" type="radio" id="deal_{{$deal}}" value="{{$deal}}" name="deals_of_the_week"><label for="deal_{{$deal}}">{{$deal ? 'Yes' : 'No'}}</label></li>
                                     @endforeach
                                 </ul>
                             </form>
                         </div>
                     @endif
-                    @if($comingSoon)
+                    @if(count($comingSoon) > 0)
                         <div class="common-filter">
                             <div class="head">{{__('Comming Soon')}}</div>
                             <form action="#">
                                 <ul>
                                     @foreach($comingSoon as $key => $comm)
-                                        @if($comm)
-                                            <li class="filter-list"><input class="pixel-radio" type="radio" id="comm_{{$comm}}" value="{{$comm}}" name="coming_soon"><label for="comm_{{$comm}}">{{$comm ? 'Yes' : 'No'}}<span>(29)</span></label></li>
-                                        @endif
+                                        <li class="filter-list"><input class="pixel-radio" type="radio" id="comm_{{$comm}}" value="{{$comm}}" name="coming_soon"><label for="comm_{{$comm}}">{{$comm ? 'Yes' : 'No'}}</label></li>
                                     @endforeach
                                 </ul>
                             </form>
                         </div>
                     @endif
-                    <div class="common-filter">
-                        <div class="head">Price</div>
-                        <div class="price-range-area">
-                            <div id="price-range"></div>
-                            <div class="value-wrapper d-flex">
-                                <div class="price">Price:</div>
-                                <span>$</span>
-                                <div id="lower-value"></div>
-                                <div class="to">to</div>
-                                <span>$</span>
-                                <div id="upper-value"></div>
-                            </div>
-                        </div>
-                    </div>
+
                 </div>
             </div>
             <div class="col-xl-9 col-lg-8 col-md-7">
@@ -154,7 +137,7 @@
                             <!-- single product -->
                             <div class="col-lg-4 col-md-6">
                                 <div class="single-product">
-                                    <img class="img-fluid" src="{{asset('img/product').'/'.$product->images->first()->image}}" alt="{{$product->images->first()->image}}">
+                                    <a href="{{ route('products.show', ['id' => $product->id]) }}"><img class="img-fluid" src="{{asset('img/product').'/'.$product->images->first()->image}}" alt="{{$product->images->first()->image}}"></a>
                                     <div class="product-details">
                                         <h6>{{$product->name}}</h6>
                                         <div class="price">
@@ -162,25 +145,6 @@
                                             @if($product->special_price)
                                                 <h6 class="l-through">${{$product->price}}</h6>
                                             @endif
-                                        </div>
-                                        <div class="prd-bottom">
-
-                                            <a href="" class="social-info">
-                                                <span class="ti-bag"></span>
-                                                <p class="hover-text">add to bag</p>
-                                            </a>
-                                            <a href="" class="social-info">
-                                                <span class="lnr lnr-heart"></span>
-                                                <p class="hover-text">Wishlist</p>
-                                            </a>
-                                            <a href="" class="social-info">
-                                                <span class="lnr lnr-sync"></span>
-                                                <p class="hover-text">compare</p>
-                                            </a>
-                                            <a href="{{ route('products.show', ['id' => $product->id]) }}" class="social-info">
-                                                <span class="lnr lnr-move"></span>
-                                                <p class="hover-text">view more</p>
-                                            </a>
                                         </div>
                                     </div>
                                 </div>

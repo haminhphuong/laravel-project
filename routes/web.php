@@ -58,6 +58,8 @@ Route::prefix('/')->group(function () {
 
     Route::get('/account', [AccountController::class, 'index'])->name('account')->middleware('auth');
     Route::post('/account/update', [AccountController::class, 'update'])->name('account.update');
+    Route::post('/update-password', [AccountController::class, 'updatePassword'])->name('update.password');
+    Route::get('/search', [FECategoryController::class, 'showProducts'])->name('search');
 
 });
 
@@ -96,10 +98,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.','middleware' => ['admin.auth
     Route::post('/orders/{order}/ship', [OrderController::class, 'ship'])->name('orders.ship');
     Route::post('/orders/{order}/invoice', [OrderController::class, 'invoice'])->name('orders.invoice');
 
-    Route::get('/customers', [CustomerController::class, 'index'])->name('admin.customers.index');
-    Route::get('/customers/{id}', [CustomerController::class, 'show'])->name('admin.customers.show');
-    Route::get('/customers/{id}/edit', [CustomerController::class, 'edit'])->name('admin.customers.edit');
-    Route::put('/customers/{id}', [CustomerController::class, 'update'])->name('admin.customers.update');
-    Route::delete('/customers/{id}', [CustomerController::class, 'destroy'])->name('admin.customers.destroy');
+    Route::get('/customers', [CustomerController::class, 'index'])->name('customers.index');
+    Route::get('/customers/{id}', [CustomerController::class, 'show'])->name('customers.show');
+    Route::get('/customers/{id}/edit', [CustomerController::class, 'edit'])->name('customers.edit');
+    Route::put('/customers/{id}', [CustomerController::class, 'update'])->name('customers.update');
+    Route::delete('/customers/{id}', [CustomerController::class, 'destroy'])->name('customers.destroy');
 });
 

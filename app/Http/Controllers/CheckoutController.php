@@ -10,6 +10,8 @@ use App\Models\OrderItem;
 use App\Models\Order;
 use App\Models\OrderAddress;
 use Illuminate\Support\Facades\Validator;
+use App\Mail\OrderConfirmation;
+use Illuminate\Support\Facades\Mail;
 class CheckoutController extends Controller
 {
     public function index()
@@ -103,14 +105,14 @@ class CheckoutController extends Controller
         return redirect()->route('order.confirm', ['id' => $order->id]);
     }
 
-    public function confirmOrder($id){
+    public function confirmOrder(Request $request,$id){
         // Lấy thông tin của order theo id
         $order = Order::findOrFail($id);
 
         // Lấy thông tin của order items và order address
         $orderItems = $order->items;
         $orderAddress = $order->address;
-
+        Mail::to($request->user()->email)->send(new OrderConfirmation());
         return view('frontend.checkout.confirmation', compact('order','orderItems','orderAddress'));
     }
 }

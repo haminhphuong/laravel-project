@@ -28,7 +28,7 @@
 @php
     use Illuminate\Support\Facades\Auth;
     $cart = auth()->user() ? auth()->user()->cart : '';
-    $totalQuantity = $cart ? $cart->sum('quantity') : 0; // Tính tổng số lượng sản phẩm
+    $totalQuantity = $cart ? $cart->sum('quantity') : 0;
 @endphp
 <!-- Start Header Area -->
 <header class="header_area sticky-header">
@@ -54,34 +54,6 @@
                         @foreach($categories as $item)
                             <li class="nav-item"><a class="nav-link" href="{{route('category.products', ['slug' => $item->slug])}}">{{$item->name}}</a></li>
                         @endforeach
-                        <li class="nav-item submenu dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                               aria-expanded="false">Shop</a>
-                            <ul class="dropdown-menu">
-                                <li class="nav-item"><a class="nav-link" href="{{ url('/shop-category') }}">Shop Category</a></li>
-                                <li class="nav-item"><a class="nav-link" href="{{ url('/product-details') }}">Product Details</a></li>
-                                <li class="nav-item"><a class="nav-link" href="{{ url('/product-checkout') }}">Product Checkout</a></li>
-                                <li class="nav-item"><a class="nav-link" href="{{ url('/shopping-cart') }}">Shopping Cart</a></li>
-                                <li class="nav-item"><a class="nav-link" href="{{ url('/confirmation') }}">Confirmation</a></li>
-                            </ul>
-                        </li>
-{{--                        <li class="nav-item submenu dropdown">--}}
-{{--                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"--}}
-{{--                               aria-expanded="false">Blog</a>--}}
-{{--                            <ul class="dropdown-menu">--}}
-{{--                                <li class="nav-item"><a class="nav-link" href="{{ url('/blog') }}">Blog</a></li>--}}
-{{--                                <li class="nav-item"><a class="nav-link" href="{{ url('/single-blog') }}">Blog Details</a></li>--}}
-{{--                            </ul>--}}
-{{--                        </li>--}}
-{{--                        <li class="nav-item submenu dropdown">--}}
-{{--                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"--}}
-{{--                               aria-expanded="false">Pages</a>--}}
-{{--                            <ul class="dropdown-menu">--}}
-{{--                                <li class="nav-item"><a class="nav-link" href="{{ url('/login') }}">Login</a></li>--}}
-{{--                                <li class="nav-item"><a class="nav-link" href="{{ url('/tracking') }}">Tracking</a></li>--}}
-{{--                                <li class="nav-item"><a class="nav-link" href="{{ url('/elements') }}">Elements</a></li>--}}
-{{--                            </ul>--}}
-{{--                        </li>--}}
                         <li class="nav-item"><a class="nav-link" href="{{ url('contact.html') }}">Contact</a></li>
                         <li class="nav-item"><a class="nav-link" href="{{ route('account') }}">{{__('Account')}}</a></li>
                         @if(Auth::check())
@@ -90,13 +62,6 @@
                             <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">{{__('Login')}}</a></li>
                         @endif
                     </ul>
-{{--                    <?php--}}
-{{--                        use Illuminate\Support\Facades\Session;--}}
-{{--                        $countProductCart = 0;--}}
-{{--                        if(Session::has('cart')){--}}
-{{--                            $countProductCart = count(Session::get('cart'));--}}
-{{--                        }--}}
-{{--                    ?>--}}
                     <ul class="nav navbar-nav navbar-right">
                         <li class="nav-item"><a href="{{ route('cart.index') }}" class="cart"><span class="ti-bag"></span>
                                 <span class="number-product" style="color: orangered">{{$totalQuantity}}</span>
@@ -112,8 +77,8 @@
     </div>
     <div class="search_input" id="search_input_box">
         <div class="container">
-            <form class="d-flex justify-content-between">
-                <input type="text" class="form-control" id="search_input" placeholder="Search Here">
+            <form class="d-flex justify-content-between" method="GET" action="{{ route('search') }}">
+                <input type="text" class="form-control" id="search_input"  name="keyword" placeholder="Search Here">
                 <button type="submit" class="btn"></button>
                 <span class="lnr lnr-cross" id="close_search" title="Close Search"></span>
             </form>

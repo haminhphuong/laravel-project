@@ -9,8 +9,10 @@ use Illuminate\Http\Request;
 class CategoryController extends Controller
 {
     const numPaginate = 12;
-    public function showProducts(Request $request, $slug)
+    public function showProducts(Request $request, $slug='')
     {
+        $keyword = $request->input('keyword');
+        $compact = [];
         $numShow = $request->get('numShow') ?: self::numPaginate;
         $params = $request->all();
         $sortBy = $request->input('sort_by', 'a-z');
@@ -18,8 +20,16 @@ class CategoryController extends Controller
         if(isset($params['sort_by'])){
             unset($params['sort_by']);
         }
-        $category = Category::where('slug', $slug)->firstOrFail();
-        $products = $category->products();
+        if($keyword){
+            $products = Product::where('name', 'like', '%' . $keyword . '%');
+            $compact[] = ['keyword'];
+        }
+        else{
+            $category = Category::where('slug', $slug)->firstOrFail();
+            $products = $category->products();
+            $compact[] = ['category','linkPage'];
+            $linkPage = route('category.products', ['slug' => $category->slug]).'?page=';
+        }
 
         if ($sortBy === 'a-z') {
             $products->orderBy('name', 'asc');
@@ -40,7 +50,6 @@ class CategoryController extends Controller
         $products = $products->paginate($numShow);
         $totalPages = $products->lastPage();
         $currentPage = $products->currentPage();
-        $linkPage = route('category.products', ['slug' => $category->slug]).'?page=';
 
         $sizes = $products->pluck('info.size')->unique();
         $brands = $products->pluck('info.brand')->unique();
@@ -65,21 +74,18 @@ class CategoryController extends Controller
             }
             return [];
         });
-
+        $compact[] = ['products',
+            'totalPages',
+            'currentPage',
+            'numShow',
+            'sortBy',
+            'sizes',
+            'mappedColors',
+            'mappedBrands',
+            'deals',
+            'comingSoon'];
         return view('frontend.category.products',
-            compact(
-                'category',
-                'products',
-                'totalPages',
-                'currentPage',
-                'linkPage',
-                'numShow',
-                'sortBy',
-                'sizes',
-                'mappedColors',
-                'mappedBrands',
-                'deals',
-                'comingSoon'));
+            compact($compact));
     }
 
 }

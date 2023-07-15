@@ -13,11 +13,16 @@
     <script src="{{asset('ckeditor/ckeditor.js')}}"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
     <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js" defer></script>
+    <style>
+        .container-fluid .row nav{
+            height: 1200px;
+        }
+    </style>
 </head>
 <body>
 <header>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">Logo</a>
+        <a class="navbar-brand" href="{{route('admin.dashboard')}}">Logo</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -29,16 +34,19 @@
             <div class="sidebar-sticky">
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link active" href="#">Dashboard</a>
+                        <a class="nav-link {{strpos(request()->url(),'dashboard') ? 'active' : ''}}" href="{{route('admin.dashboard')}}">Dashboard</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('admin.products.index') }}">Sản phẩm</a>
+                        <a class="nav-link {{strpos(request()->url(),'customers') ? 'active' : ''}}" href="{{ route('admin.customers.index') }}">Khách hàng</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('admin.categories.index') }}">Danh mục</a>
+                        <a class="nav-link {{strpos(request()->url(),'products') ? 'active' : ''}}" href="{{ route('admin.products.index') }}">Sản phẩm</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('admin.orders.index') }}">Order</a>
+                        <a class="nav-link {{strpos(request()->url(),'categories') ? 'active' : ''}}" href="{{ route('admin.categories.index') }}">Danh mục</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{strpos(request()->url(),'orders') ? 'active' : ''}}" href="{{ route('admin.orders.index') }}">Đơn hàng</a>
                     </li>
                 </ul>
             </div>

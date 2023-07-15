@@ -1,17 +1,6 @@
-@extends('frontend/index')
-@section('title', 'Account Page')
-@section('css')
-    <link rel="stylesheet" href="{{ asset('css/linearicons.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/themify-icons.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/owl.carousel.css') }}">
+@extends('admin.index')
+@section('content')
     <link rel="stylesheet" href="{{ asset('css/nice-select.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/nouislider.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/ion.rangeSlider.css') }}" />
-    <link rel="stylesheet" href="{{ asset('css/ion.rangeSlider.skinFlat.css') }}" />
-    <link rel="stylesheet" href="{{ asset('css/magnific-popup.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/main.css') }}">
     <style>
         .form-group {
             margin-bottom: 20px;
@@ -24,122 +13,79 @@
             overflow: auto;
         }
     </style>
-@endsection
-
-@section('mainContent')
-
-    <!-- Start Banner Area -->
-    <section class="banner-area organic-breadcrumb">
-        <div class="container">
-            <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
-                <div class="col-first">
-                    <h1>Account Page</h1>
-                </div>
+    <div class="card">
+        <div class="card-header">
+            <h4>Edit <?= $user->name ?></h4>
+        </div>
+        @if (session()->has('success'))
+            <div class="alert alert-success">
+                {{ session()->get('success') }}
             </div>
-        </div>
-    </section>
-    <!-- End Banner Area -->
-<div class="container">
-    @if (session()->has('success'))
-        <div class="alert alert-success">
-            {{ session()->get('success') }}
-        </div>
-    @endif
-    <h2 class="mt-5">Account Information</h2>
-        @if($user->avatar)
-        <div class="col-md-6">
-            <img src="{{ asset('storage/' . $user->avatar) }}" alt="Avatar">
-        </div>
         @endif
-    <div class="d-flex">
-        <form action="{{ route('account.update') }}" method="POST" enctype="multipart/form-data" class="col-md-6">
-            @csrf
-            <div class="form-group col-md-12">
-                <label for="name">Name</label>
-                <input type="text" id="name" class="form-control" name="name" value="{{ $user->name }}">
-            </div>
-            <div class="form-group col-md-12">
-                <label for="email">Email</label>
-                <input type="email" class="form-control" id="email" name="email" value="{{ $user->email }}">
-            </div>
-            <div class="col-md-12 form-group">
-                <label for="email">Phone number</label>
-                <input type="text" class="form-control @error('phone') is-invalid @enderror" value="{{ $user->phone }}" id="phone" name="phone" placeholder="{{__('Phone number')}}" required aria-invalid="true">
-                @error('phone')
-                <span class="invalid-feedback">{{ $message }}</span>
-                @enderror
-            </div>
-            <div class="col-md-12 form-group">
-                <label for="city">City</label>
-                <select class="country_select select-scroll" id="city" name="city">
-                    <?php if(!$city): ?>
+        <div class="col-md-6">
+            <img src="{{ asset('storage/' . $user->avatar) }}" alt="Avatar" width="450" height="450">
+        </div>
+        <div class="card-body">
+            <form action="{{ route('admin.customers.update', $user->id) }}" method="POST" enctype="multipart/form-data" class="col-md-6">
+                @csrf
+                @method('PUT')
+                <div class="form-group col-md-12">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" class="form-control" name="name" value="{{ $user->name }}">
+                </div>
+                <div class="form-group col-md-12">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" id="email" name="email" value="{{ $user->email }}">
+                </div>
+                <div class="col-md-12 form-group">
+                    <label for="email">Phone number</label>
+                    <input type="text" class="form-control @error('phone') is-invalid @enderror" value="{{ $user->phone }}" id="phone" name="phone" placeholder="{{__('Phone number')}}" required aria-invalid="true">
+                    @error('phone')
+                    <span class="invalid-feedback">{{ $message }}</span>
+                    @enderror
+                </div>
+                <div class="col-md-12 form-group">
+                    <label for="city">City</label>
+                    <select class="country_select select-scroll" id="city" name="city">
+                            <?php if(!$city): ?>
                         <option value="">{{ __('------ Please Select ------') }}</option>
-                    <?php endif;?>
-                    @foreach($provinces as $province)
-                        <option value="{{ $province['ma']}}" {{$province['ma'] == $city ? 'selected' : ''}}>{{ $province['ten'] }}</option>
-                    @endforeach
-                </select>
-                @error('city')
-                <span class="invalid-feedback">{{ $message }}</span>
-                @enderror
-            </div>
-            <div class="col-md-12 form-group">
-                <label for="district">District</label>
-                <select class="country_select select-scroll" id="district" name="district">
-                    <option value="1">District</option>
-                </select>
-                @error('district')
-                <span class="invalid-feedback">{{ $message }}</span>
-                @enderror
-            </div>
-            <div class="col-md-12 form-group">
-                <label for="ward">Ward</label>
-                <select class="country_select select-scroll" id="ward" name="ward">
-                    <option value="1">Ward</option>
-                </select>
-                @error('ward')
-                <span class="invalid-feedback">{{ $message }}</span>
-                @enderror
-            </div>
-            <div class="form-group col-md-12">
-                <label for="avatar">Avatar</label>
-                <input type="file" id="avatar" name="avatar" class="form-control">
-            </div>
-            <div class="form-group col-md-12">
-                <input type="submit" value="Update" class="btn-warning btn">
-            </div>
-        </form>
-        <form action="{{ route('update.password') }}" method="POST" class="col-md-6">
-            @csrf
-            <h3>{{__('Change password')}}</h3>
-
-            <div class="form-group col-md-12">
-                <label for="current_password">Current Password</label>
-                <input id="current_password" type="password" name="current_password" class="form-control" required>
-                @error('current_password')
-                <span class="error">{{ $message }}</span>
-                @enderror
-            </div>
-            <div class="form-group col-md-12">
-                <label for="password">New Password</label>
-                <input id="password" type="password" name="password" class="form-control @error('password') is-invalid @enderror" required>
-                @error('password')
-                <span class="error">{{ $message }}</span>
-                @enderror
-            </div>
-            <div class="form-group col-md-12">
-                <label for="password_confirmation">Confirm Password</label>
-                <input id="password_confirmation" type="password" name="password_confirmation" class="form-control" required>
-            </div>
-            <div class="form-group col-md-12">
-                <input type="submit" value="Update" class="btn-warning btn">
-            </div>
-        </form>
+                        <?php endif;?>
+                        @foreach($provinces as $province)
+                            <option value="{{ $province['ma']}}" {{$province['ma'] == $city ? 'selected' : ''}}>{{ $province['ten'] }}</option>
+                        @endforeach
+                    </select>
+                    @error('city')
+                    <span class="invalid-feedback">{{ $message }}</span>
+                    @enderror
+                </div>
+                <div class="col-md-12 form-group">
+                    <label for="district">District</label>
+                    <select class="country_select select-scroll" id="district" name="district">
+                        <option value="1">District</option>
+                    </select>
+                    @error('district')
+                    <span class="invalid-feedback">{{ $message }}</span>
+                    @enderror
+                </div>
+                <div class="col-md-12 form-group">
+                    <label for="ward">Ward</label>
+                    <select class="country_select select-scroll" id="ward" name="ward">
+                        <option value="1">Ward</option>
+                    </select>
+                    @error('ward')
+                    <span class="invalid-feedback">{{ $message }}</span>
+                    @enderror
+                </div>
+                <div class="form-group col-md-12">
+                    <label for="avatar">Avatar</label>
+                    <input type="file" id="avatar" name="avatar" class="form-control">
+                </div>
+                <div class="form-group col-md-12">
+                    <input type="submit" value="Update" class="btn-warning btn">
+                </div>
+            </form>
+        </div>
     </div>
-
-</div>
-@endsection
-@section('js')
     <script src="{{ asset('js/vendor/jquery-2.2.4.min.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
             crossorigin="anonymous"></script>
@@ -191,8 +137,8 @@
                 }
 
             });
-            <?php if($district): ?>
-                setTimeout(function (){
+                <?php if($district): ?>
+            setTimeout(function (){
                 $('#district option').each(function (){
                     if($(this).val() === '<?= $district ?>'){
                         $(this).prop('selected',true);
@@ -203,7 +149,7 @@
                         $("#district").siblings(".nice-select.country_select").find(".current").html(dis.text());
                     }
                 })
-                },700)
+            },700)
             <?php endif; ?>
         });
         $('#district').on('change',function() {
@@ -237,8 +183,8 @@
                     console.log(xhr.responseText);
                 }
             });
-            <?php if($ward): ?>
-                setTimeout(function (){
+                <?php if($ward): ?>
+            setTimeout(function (){
                 $('#ward option').each(function (){
                     $(this).prop('selected',true);
                     if($(this).val() === '<?= $ward ?>'){
@@ -248,11 +194,10 @@
                         $("#ward").siblings(".nice-select.country_select").find(".current").html(ward.text());
                     }
                 })
-                },700)
+            },700)
             <?php endif; ?>
 
         });
     </script>
-
 @endsection
 

@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Services\VnAddress;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+
 class AccountController extends Controller
 {
     public function index()
@@ -40,6 +43,27 @@ class AccountController extends Controller
         $user->update($validatedData);
 
         return redirect()->route('account')->with('success', 'Thông tin tài khoản đã được cập nhật thành công!');
+    }
+
+    public function updatePassword(Request $request)
+    {
+        $request->validate([
+            'current_password' => 'required',
+            'password' => 'required|confirmed|min:8',
+        ]);
+
+        $user = Auth::user();
+
+        // Kiểm tra mật khẩu hiện tại của người dùng
+        if (!Hash::check($request->current_password, $user->password)) {
+            return back()->with('errors', 'Incorrect current password.');
+        }
+
+        // Cập nhật mật khẩu mới
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        return redirect()->route('account')->with('success', 'Password updated successfully.');
     }
 }
 

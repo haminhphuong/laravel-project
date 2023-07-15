@@ -204,7 +204,7 @@
                 <!-- single product -->
                 <div class="col-lg-3 col-md-6">
                     <div class="single-product">
-                        <img class="img-fluid" src="{{asset('img/product').'/'.$product->images->first()->image}}" alt="{{$product->images->first()->image}}">
+                        <a href="{{ route('products.show', ['id' => $product->id]) }}" ><img class="img-fluid" src="{{asset('img/product').'/'.$product->images->first()->image}}" alt="{{$product->images->first()->image}}"></a>
                         <div class="product-details">
                             <h6>{{$product->name}}</h6>
                             <div class="price">
@@ -213,32 +213,6 @@
                                     <h6 class="l-through">${{$product->price}}</h6>
                                 @endif
                             </div>
-                            <div class="prd-bottom">
-                                <a href="" class="social-info" id="add-to-cart-{{$product->id}}">
-                                <form action="{{ route('cart.add', $product->id) }}" method="POST" id="add-to-cart-form-{{$product->id}}">
-                                        <span class="ti-bag"></span>
-                                        <p class="hover-text">add to bag</p>
-                                </form>
-                                </a>
-{{--                                <a href="" class="social-info">--}}
-{{--                                    <span class="lnr lnr-heart"></span>--}}
-{{--                                    <p class="hover-text">Wishlist</p>--}}
-{{--                                </a>--}}
-{{--                                <a href="" class="social-info">--}}
-{{--                                    <span class="lnr lnr-sync"></span>--}}
-{{--                                    <p class="hover-text">compare</p>--}}
-{{--                                </a>--}}
-                                <a href="{{ route('products.show', ['id' => $product->id]) }}" class="social-info">
-                                    <span class="lnr lnr-move"></span>
-                                    <p class="hover-text">view more</p>
-                                </a>
-                            </div>
-                            <script>
-                                document.querySelector('#add-to-cart-{{$product->id}}').addEventListener('click', function(event) {
-                                    event.preventDefault(); // Ngăn chặn hành động mặc định của button khi click
-                                    document.querySelector('#add-to-cart-form-{{$product->id}}').submit(); // Submit form
-                                });
-                            </script>
                         </div>
                     </div>
                 </div>
