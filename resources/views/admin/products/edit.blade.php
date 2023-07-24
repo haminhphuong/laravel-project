@@ -54,13 +54,14 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="form-group">
-                    <label for="is_featured">Featured</label>
-                    <input type="checkbox" name="is_featured" value="1" {{ $product->is_featured ? 'checked' : '' }} class="form-control @error('is_featured') is-invalid @enderror" id="is_featured">
+                <div class="form-group form-check form-switch d-flex">
+                    <label for="is_featured" class="form-check-label">Is Featured</label>
+                    <input type="checkbox" name="is_featured" value="1" {{ $product->is_featured ? 'checked' : '' }} class="form-check-input @error('is_featured') is-invalid @enderror" id="is_featured">
                     @error('is_featured')
                     <span class="invalid-feedback">{{ $message }}</span>
                     @enderror
                 </div>
+
                 <hr>
                 <h3>Product Info</h3>
                 <div class="form-group">
@@ -105,11 +106,11 @@
                     </select>
                     </select>
                 </div>
-                <div class="form-group">
+                <div class="form-group form-check form-switch d-flex">
                     <label for="deals_of_the_week">{{__('Deals of the Week')}}</label>
                     <input type="checkbox" value="1" {{ $product->info->deals_of_the_week ? 'checked' : '' }} name="deals_of_the_week" id="deals_of_the_week" class="form-check-input">
                 </div>
-                <div class="form-group">
+                <div class="form-group form-check form-switch d-flex">
                     <label for="coming_soon">{{__('Coming Products')}}</label>
                     <input type="checkbox" value="1" {{ $product->info->coming_soon ? 'checked' : '' }} name="coming_soon" id="coming_soon" class="form-check-input">
                 </div>

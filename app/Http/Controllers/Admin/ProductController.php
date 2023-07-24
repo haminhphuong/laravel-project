@@ -16,7 +16,7 @@ class ProductController extends Controller
         if ($request->ajax()) {
             return DataTables::of($products)->addColumn('action', function ($product) {
                 $button = '<a href="'.route('admin.products.show', $product->id).'" class="btn btn-info btn-sm">View</a>';
-                $button .= '<a href="'.route('admin.products.edit', $product->id).'" class="btn btn-warning btn-sm">Edit</a>';
+                $button .= '<a href="'.route('admin.products.edit', $product->id).'" class="btn btn-warning btn-sm m-1">Edit</a>';
                 $button .= '<form action="'.route('admin.products.destroy', $product->id).'" method="POST" style="display: inline-block;">';
                 $button .= csrf_field();
                 $button .= method_field('DELETE');
@@ -27,8 +27,8 @@ class ProductController extends Controller
             })
             ->editColumn('image', function ($product) {
                 $img = '';
-                $src = $product->images->first()->image;
-                if ($product->images->count() > 0){
+                $src = $product->images->first() ? $product->images->first()->image : '';
+                if ($src && $product->images->count() > 0){
                     $img .= '<img src="'.asset("img/product/$src").'" alt="'.$product->name.'" width="64" height="64">';
                 }
                 else{
@@ -87,8 +87,8 @@ class ProductController extends Controller
                 'size' => $request->size,
                 'color' => $request->color,
                 'brand' => $request->brand,
-                'deals_of_the_week' => $request->deals_of_the_week,
-                'coming_soon' => $request->coming_soon,
+                'deals_of_the_week' => $request->deals_of_the_week ?? 0,
+                'coming_soon' => $request->coming_soon ?? 0,
             ]);
         }
 
@@ -157,8 +157,8 @@ class ProductController extends Controller
                     'size' => $request->size,
                     'color' => $request->color,
                     'brand' => $request->brand,
-                    'deals_of_the_week' => $request->deals_of_the_week,
-                    'coming_soon' => $request->coming_soon,
+                    'deals_of_the_week' => $request->deals_of_the_week ?? 0,
+                    'coming_soon' => $request->coming_soon ?? 0,
                 ]);
             } else {
                 $product->info()->create([
@@ -167,8 +167,8 @@ class ProductController extends Controller
                     'size' => $request->size,
                     'color' => $request->color,
                     'brand' => $request->brand,
-                    'deals_of_the_week' => $request->deals_of_the_week,
-                    'coming_soon' => $request->coming_soon,
+                    'deals_of_the_week' => $request->deals_of_the_week ?? 0,
+                    'coming_soon' => $request->coming_soon ?? 0,
                 ]);
             }
 

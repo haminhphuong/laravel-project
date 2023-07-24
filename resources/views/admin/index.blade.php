@@ -22,7 +22,7 @@
 <body>
 <header>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="{{route('admin.dashboard')}}">Logo</a>
+        <a class="navbar-brand logo_h" href="{{ route('admin.dashboard') }}"><img src="{{ asset('img/logo.png') }}" alt=""></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -47,6 +47,9 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {{strpos(request()->url(),'orders') ? 'active' : ''}}" href="{{ route('admin.orders.index') }}">Đơn hàng</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{strpos(request()->url(),'contacts') ? 'active' : ''}}" href="{{ route('admin.contacts.index') }}">Liên hệ</a>
                     </li>
                 </ul>
             </div>

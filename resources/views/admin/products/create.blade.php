@@ -20,18 +20,21 @@
 
                     <div class="form-group">
                         <label for="name">Name</label>
-                        <input type="text" name="name" id="name" class="form-control">
+                        <input type="text" name="name" id="name" class="form-control" required>
                     </div>
 
                     <div class="form-group">
                         <label for="description">Description</label>
-                        <textarea name="description" id="description" class="form-control" required></textarea>
+                        <textarea name="description" id="description" required class="form-control @error('description') is-invalid @enderror"></textarea>
                         <script>CKEDITOR.replace('description');</script>
+                        @error('description')
+                        <span class="invalid-feedback">{{ $message }}</span>
+                        @enderror
                     </div>
 
                     <div class="form-group">
                         <label for="price">Price</label>
-                        <input type="number" name="price" id="price" class="form-control" step="1">
+                        <input type="number" name="price" id="price" class="form-control" step="1" required>
                     </div>
 
                     <div class="form-group">
@@ -41,10 +44,10 @@
 
                     <div class="form-group">
                         <label for="quantity">Quantity</label>
-                        <input type="number" name="quantity" id="quantity" class="form-control" min="0">
+                        <input type="number" name="quantity" id="quantity" class="form-control" min="0" required>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group form-check form-switch d-flex">
                         <label for="is_featured">Is Featured</label>
                         <input type="checkbox" value="1" name="is_featured" id="is_featured" class="form-check-input">
                     </div>
@@ -56,12 +59,15 @@
                     <h3>Product Info</h3>
                     <div class="form-group">
                         <label for="specifications">Specifications</label>
-                        <textarea name="specifications" class="form-control" id="specifications"></textarea>
+                        <textarea name="specifications" class="form-control @error('specifications') is-invalid @enderror" id="specifications"></textarea>
                         <script>CKEDITOR.replace('specifications');</script>
+                        @error('specifications')
+                        <span class="invalid-feedback">{{ $message }}</span>
+                        @enderror
                     </div>
                     <div class="form-group">
                         <label for="features">Features</label>
-                        <textarea name="features" class="form-control" id="features"></textarea>
+                        <textarea name="features" class="form-control" id="features" required></textarea>
                     </div>
                     <div class="form-group">
                         <label for="size">{{__('Choose Size')}}</label>
@@ -90,11 +96,11 @@
                         </select>
                         </select>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group form-check form-switch d-flex">
                         <label for="deals_of_the_week">{{__('Deals of the Week')}}</label>
                         <input type="checkbox" value="1" name="deals_of_the_week" id="deals_of_the_week" class="form-check-input">
                     </div>
-                    <div class="form-group">
+                    <div class="form-group form-check form-switch d-flex">
                         <label for="coming_soon">{{__('Coming Products')}}</label>
                         <input type="checkbox" value="1" name="coming_soon" id="coming_soon" class="form-check-input">
                     </div>

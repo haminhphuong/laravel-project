@@ -25,6 +25,8 @@ use App\Http\Controllers\CategoryController as FECategoryController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\ContactController as FEContactController;
+use App\Http\Controllers\Admin\ContactController;
 
 Route::prefix('/')->group(function () {
     // Register
@@ -61,6 +63,10 @@ Route::prefix('/')->group(function () {
     Route::post('/update-password', [AccountController::class, 'updatePassword'])->name('update.password');
     Route::get('/search', [FECategoryController::class, 'showProducts'])->name('search');
 
+    Route::get('/contact', [FEContactController::class, 'showContact'])->name('contact');
+    Route::post('/contact', [FEContactController::class, 'submitContactForm'])->name('contact.submit');
+
+
 });
 
 // Routes cho nhóm admin
@@ -68,9 +74,6 @@ Route::get('admin/login', [AdminLoginController::class,'showLoginForm'])->name('
 Route::post('admin/login', [AdminLoginController::class,'login'])->name('admin.login.submit');
 Route::get('admin/dashboard', [AdminController::class,'index'])->name('admin.dashboard');
 
-//Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth'], function () {
-//    // Thêm các routes cho nhóm admin tại đây
-//});
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.','middleware' => ['admin.auth']], function () {
     Route::get('/categories', [CategoryController::class,'index'])->name('categories.index');
@@ -103,5 +106,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.','middleware' => ['admin.auth
     Route::get('/customers/{id}/edit', [CustomerController::class, 'edit'])->name('customers.edit');
     Route::put('/customers/{id}', [CustomerController::class, 'update'])->name('customers.update');
     Route::delete('/customers/{id}', [CustomerController::class, 'destroy'])->name('customers.destroy');
+
+    Route::get('contacts', [ContactController::class, 'index'])->name('contacts.index');
+    Route::put('contacts/{contact}/update-status', [ContactController::class, 'updateStatus'])->name('contacts.updateStatus');
+    Route::delete('contacts/{contact}', 'Admin\ContactController@destroy')->name('contacts.destroy');
 });
 

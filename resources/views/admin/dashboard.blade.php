@@ -59,12 +59,6 @@
     </div>
 @endsection
 <style>
-
-    /* Styles for the container */
-    .container-fluid {
-        padding: 20px;
-    }
-
     /* Styles for the page heading */
     h1 {
         font-size: 24px;

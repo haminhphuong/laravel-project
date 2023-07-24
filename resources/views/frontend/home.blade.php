@@ -13,7 +13,10 @@
     <link rel="stylesheet" href="{{ asset('css/magnific-popup.css') }}">
     <link rel="stylesheet" href="{{ asset('css/main.css') }}">
 @endsection
-
+<?php
+use App\Services\Currency;
+$currency = new Currency();
+?>
 @section('mainContent')
 <!-- start banner Area -->
 <section class="banner-area">
@@ -28,10 +31,7 @@
                                 <h1>Nike New <br>Collection!</h1>
                                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
                                     dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</p>
-                                <div class="add-bag d-flex align-items-center">
-                                    <a class="add-btn" href=""><span class="lnr lnr-cross"></span></a>
-                                    <span class="add-text text-uppercase">Add to Bag</span>
-                                </div>
+
                             </div>
                         </div>
                         <div class="col-lg-7">
@@ -47,10 +47,7 @@
                                 <h1>Nike New <br>Collection!</h1>
                                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
                                     dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</p>
-                                <div class="add-bag d-flex align-items-center">
-                                    <a class="add-btn" href=""><span class="lnr lnr-cross"></span></a>
-                                    <span class="add-text text-uppercase">Add to Bag</span>
-                                </div>
+
                             </div>
                         </div>
                         <div class="col-lg-7">
@@ -204,13 +201,13 @@
                 <!-- single product -->
                 <div class="col-lg-3 col-md-6">
                     <div class="single-product">
-                        <a href="{{ route('products.show', ['id' => $product->id]) }}" ><img class="img-fluid" src="{{asset('img/product').'/'.$product->images->first()->image}}" alt="{{$product->images->first()->image}}"></a>
+                        <a href="{{ route('products.show', ['id' => $product->id]) }}" ><img class="img-fluid" src="{{$product->images->first() ? asset('img/product').'/'.$product->images->first()->image : asset("img/placeholder.png")}}" alt="{{$product->name}}"></a>
                         <div class="product-details">
                             <h6>{{$product->name}}</h6>
                             <div class="price">
-                                <h6>${{$product->special_price ?: $product->price}}</h6>
+                                <h6>{{$currency->getPrice($product->special_price ?: $product->price)}}</h6>
                                 @if($product->special_price)
-                                    <h6 class="l-through">${{$product->price}}</h6>
+                                    <h6 class="l-through">{{$currency->getPrice($product->price)}}</h6>
                                 @endif
                             </div>
                         </div>
@@ -239,43 +236,15 @@
                 <!-- single product -->
                 <div class="col-lg-3 col-md-6">
                     <div class="single-product">
-                        <img class="img-fluid" src="{{asset('img/product').'/'.$commingProduct->product->images->first()->image}}" alt="{{$commingProduct->product->images->first()->image}}">
+                        <a href="{{ route('products.show', ['id' => $product->id]) }}" ><img class="img-fluid" src="{{$product->images->first() ? asset('img/product').'/'.$product->images->first()->image : asset("img/placeholder.png")}}" alt="{{ $commingProduct->product->name}}"></a>
                         <div class="product-details">
                             <h6>{{$commingProduct->product->name}}</h6>
                             <div class="price">
-                                <h6>${{$commingProduct->product->special_price ?: $product->price}}</h6>
-                                @if($commingProduct->product->special_price)
-                                    <h6 class="l-through">${{$commingProduct->product->price}}</h6>
+                                <h6>{{$currency->getPrice($product->special_price ?: $product->price)}}</h6>
+                                @if($product->special_price)
+                                    <h6 class="l-through">{{$currency->getPrice($product->price)}}</h6>
                                 @endif
                             </div>
-                            <div class="prd-bottom">
-                                <a href="" class="social-info" id="add-to-cart-{{$product->id}}">
-
-                                <form action="{{ route('cart.add', $product->id) }}" method="POST" id="add-to-cart-form-{{$product->id}}">
-                                    <span class="ti-bag"></span>
-                                    <p class="hover-text">add to bag</p>
-                                </form>
-                                </a>
-
-{{--                                <a href="" class="social-info">--}}
-{{--                                    <span class="lnr lnr-heart"></span>--}}
-{{--                                    <p class="hover-text">Wishlist</p>--}}
-{{--                                </a>--}}
-{{--                                <a href="" class="social-info">--}}
-{{--                                    <span class="lnr lnr-sync"></span>--}}
-{{--                                    <p class="hover-text">compare</p>--}}
-{{--                                </a>--}}
-                                <a href="{{ route('products.show', ['id' => $commingProduct->product->id]) }}" class="social-info">
-                                    <span class="lnr lnr-move"></span>
-                                    <p class="hover-text">view more</p>
-                                </a>
-                            </div>
-                            <script>
-                                document.querySelector('#add-to-cart-{{$product->id}}').addEventListener('click', function(event) {
-                                    event.preventDefault(); // Ngăn chặn hành động mặc định của button khi click
-                                    document.querySelector('#add-to-cart-form-{{$product->id}}').submit(); // Submit form
-                                });
-                            </script>
                         </div>
                     </div>
                 </div>
@@ -332,10 +301,6 @@
                             </div>
                             <h4>addidas New Hammer sole
                                 for Sports person</h4>
-                            <div class="add-bag d-flex align-items-center justify-content-center">
-                                <a class="add-btn" href=""><span class="ti-bag"></span></a>
-                                <span class="add-text text-uppercase">Add to Bag</span>
-                            </div>
                         </div>
                     </div>
                     <!-- single exclusive carousel -->
@@ -348,10 +313,7 @@
                             </div>
                             <h4>addidas New Hammer sole
                                 for Sports person</h4>
-                            <div class="add-bag d-flex align-items-center justify-content-center">
-                                <a class="add-btn" href=""><span class="ti-bag"></span></a>
-                                <span class="add-text text-uppercase">Add to Bag</span>
-                            </div>
+                            
                         </div>
                     </div>
                 </div>
@@ -406,8 +368,8 @@
                             <div class="desc">
                                 <a href="#" class="title">Black lace Heels</a>
                                 <div class="price">
-                                    <h6>$189.00</h6>
-                                    <h6 class="l-through">$210.00</h6>
+                                    <h6>{{$currency->getPrice(189000)}}</h6>
+                                    <h6 class="l-through">{{$currency->getPrice(210000)}}</h6>
                                 </div>
                             </div>
                         </div>
@@ -418,8 +380,8 @@
                             <div class="desc">
                                 <a href="#" class="title">Black lace Heels</a>
                                 <div class="price">
-                                    <h6>$189.00</h6>
-                                    <h6 class="l-through">$210.00</h6>
+                                    <h6>{{$currency->getPrice(189000)}}</h6>
+                                    <h6 class="l-through">{{$currency->getPrice(210000)}}</h6>
                                 </div>
                             </div>
                         </div>
@@ -430,8 +392,8 @@
                             <div class="desc">
                                 <a href="#" class="title">Black lace Heels</a>
                                 <div class="price">
-                                    <h6>$189.00</h6>
-                                    <h6 class="l-through">$210.00</h6>
+                                    <h6>{{$currency->getPrice(189000)}}</h6>
+                                    <h6 class="l-through">{{$currency->getPrice(210000)}}</h6>
                                 </div>
                             </div>
                         </div>
@@ -442,8 +404,8 @@
                             <div class="desc">
                                 <a href="#" class="title">Black lace Heels</a>
                                 <div class="price">
-                                    <h6>$189.00</h6>
-                                    <h6 class="l-through">$210.00</h6>
+                                    <h6>{{$currency->getPrice(189000)}}</h6>
+                                    <h6 class="l-through">{{$currency->getPrice(210000)}}</h6>
                                 </div>
                             </div>
                         </div>
@@ -454,8 +416,8 @@
                             <div class="desc">
                                 <a href="#" class="title">Black lace Heels</a>
                                 <div class="price">
-                                    <h6>$189.00</h6>
-                                    <h6 class="l-through">$210.00</h6>
+                                    <h6>{{$currency->getPrice(189000)}}</h6>
+                                    <h6 class="l-through">{{$currency->getPrice(210000)}}</h6>
                                 </div>
                             </div>
                         </div>
@@ -466,8 +428,8 @@
                             <div class="desc">
                                 <a href="#" class="title">Black lace Heels</a>
                                 <div class="price">
-                                    <h6>$189.00</h6>
-                                    <h6 class="l-through">$210.00</h6>
+                                    <h6>{{$currency->getPrice(189000)}}</h6>
+                                    <h6 class="l-through">{{$currency->getPrice(210000)}}</h6>
                                 </div>
                             </div>
                         </div>
@@ -478,8 +440,8 @@
                             <div class="desc">
                                 <a href="#" class="title">Black lace Heels</a>
                                 <div class="price">
-                                    <h6>$189.00</h6>
-                                    <h6 class="l-through">$210.00</h6>
+                                    <h6>{{$currency->getPrice(189000)}}</h6>
+                                    <h6 class="l-through">{{$currency->getPrice(210000)}}</h6>
                                 </div>
                             </div>
                         </div>
@@ -490,8 +452,8 @@
                             <div class="desc">
                                 <a href="#" class="title">Black lace Heels</a>
                                 <div class="price">
-                                    <h6>$189.00</h6>
-                                    <h6 class="l-through">$210.00</h6>
+                                    <h6>{{$currency->getPrice(189000)}}</h6>
+                                    <h6 class="l-through">{{$currency->getPrice(210000)}}</h6>
                                 </div>
                             </div>
                         </div>
@@ -502,8 +464,8 @@
                             <div class="desc">
                                 <a href="#" class="title">Black lace Heels</a>
                                 <div class="price">
-                                    <h6>$189.00</h6>
-                                    <h6 class="l-through">$210.00</h6>
+                                    <h6>{{$currency->getPrice(189000)}}</h6>
+                                    <h6 class="l-through">{{$currency->getPrice(210000)}}</h6>
                                 </div>
                             </div>
                         </div>

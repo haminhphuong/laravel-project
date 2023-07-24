@@ -13,7 +13,10 @@
     <link rel="stylesheet" href="{{ asset('css/ion.rangeSlider.skinFlat.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/main.css') }}">
 @endsection
-
+<?php
+use App\Services\Currency;
+$currency = new Currency();
+?>
 @section('mainContent')
     <!-- Start Banner Area -->
     <section class="banner-area organic-breadcrumb">
@@ -57,7 +60,7 @@
                 <div class="col-lg-5 offset-lg-1">
                     <div class="s_product_text">
                         <h3>{{$product->name}}</h3>
-                        <h2>${{$product->special_price ?: $product->price}}</h2>
+                        <h2>{{$currency->getPrice($product->special_price ?: $product->price)}}</h2>
                         <ul class="list">
                             <li><a class="active" href="{{route('category.products', ['slug' => $product->category->slug])}}"><span>Category</span> : {{$product->category->name}}</a></li>
                             <li><a href="#"><span>Availibility</span> : In Stock</a></li>
@@ -238,9 +241,9 @@
                                 <div class="desc">
                                     <a href="#" class="title">Black lace Heels</a>
                                     <div class="price">
-                                        <h6>$189.00</h6>
-                                        <h6 class="l-through">$210.00</h6>
-                                    </div>
+                                    <h6>{{$currency->getPrice(189000)}}</h6>
+                                    <h6 class="l-through">{{$currency->getPrice(210000)}}</h6>
+                                </div>
                                 </div>
                             </div>
                         </div>
@@ -250,9 +253,9 @@
                                 <div class="desc">
                                     <a href="#" class="title">Black lace Heels</a>
                                     <div class="price">
-                                        <h6>$189.00</h6>
-                                        <h6 class="l-through">$210.00</h6>
-                                    </div>
+                                    <h6>{{$currency->getPrice(189000)}}</h6>
+                                    <h6 class="l-through">{{$currency->getPrice(210000)}}</h6>
+                                </div>
                                 </div>
                             </div>
                         </div>
@@ -262,9 +265,9 @@
                                 <div class="desc">
                                     <a href="#" class="title">Black lace Heels</a>
                                     <div class="price">
-                                        <h6>$189.00</h6>
-                                        <h6 class="l-through">$210.00</h6>
-                                    </div>
+                                    <h6>{{$currency->getPrice(189000)}}</h6>
+                                    <h6 class="l-through">{{$currency->getPrice(210000)}}</h6>
+                                </div>
                                 </div>
                             </div>
                         </div>
@@ -274,9 +277,9 @@
                                 <div class="desc">
                                     <a href="#" class="title">Black lace Heels</a>
                                     <div class="price">
-                                        <h6>$189.00</h6>
-                                        <h6 class="l-through">$210.00</h6>
-                                    </div>
+                                    <h6>{{$currency->getPrice(189000)}}</h6>
+                                    <h6 class="l-through">{{$currency->getPrice(210000)}}</h6>
+                                </div>
                                 </div>
                             </div>
                         </div>
@@ -286,9 +289,9 @@
                                 <div class="desc">
                                     <a href="#" class="title">Black lace Heels</a>
                                     <div class="price">
-                                        <h6>$189.00</h6>
-                                        <h6 class="l-through">$210.00</h6>
-                                    </div>
+                                    <h6>{{$currency->getPrice(189000)}}</h6>
+                                    <h6 class="l-through">{{$currency->getPrice(210000)}}</h6>
+                                </div>
                                 </div>
                             </div>
                         </div>
@@ -298,9 +301,9 @@
                                 <div class="desc">
                                     <a href="#" class="title">Black lace Heels</a>
                                     <div class="price">
-                                        <h6>$189.00</h6>
-                                        <h6 class="l-through">$210.00</h6>
-                                    </div>
+                                    <h6>{{$currency->getPrice(189000)}}</h6>
+                                    <h6 class="l-through">{{$currency->getPrice(210000)}}</h6>
+                                </div>
                                 </div>
                             </div>
                         </div>
@@ -310,9 +313,9 @@
                                 <div class="desc">
                                     <a href="#" class="title">Black lace Heels</a>
                                     <div class="price">
-                                        <h6>$189.00</h6>
-                                        <h6 class="l-through">$210.00</h6>
-                                    </div>
+                                    <h6>{{$currency->getPrice(189000)}}</h6>
+                                    <h6 class="l-through">{{$currency->getPrice(210000)}}</h6>
+                                </div>
                                 </div>
                             </div>
                         </div>
@@ -322,9 +325,9 @@
                                 <div class="desc">
                                     <a href="#" class="title">Black lace Heels</a>
                                     <div class="price">
-                                        <h6>$189.00</h6>
-                                        <h6 class="l-through">$210.00</h6>
-                                    </div>
+                                    <h6>{{$currency->getPrice(189000)}}</h6>
+                                    <h6 class="l-through">{{$currency->getPrice(210000)}}</h6>
+                                </div>
                                 </div>
                             </div>
                         </div>
@@ -334,9 +337,9 @@
                                 <div class="desc">
                                     <a href="#" class="title">Black lace Heels</a>
                                     <div class="price">
-                                        <h6>$189.00</h6>
-                                        <h6 class="l-through">$210.00</h6>
-                                    </div>
+                                    <h6>{{$currency->getPrice(189000)}}</h6>
+                                    <h6 class="l-through">{{$currency->getPrice(210000)}}</h6>
+                                </div>
                                 </div>
                             </div>
                         </div>
